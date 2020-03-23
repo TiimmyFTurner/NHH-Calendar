@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nhh_calendar/Providers/providers.dart';
+import 'package:nhh_calendar/providers/providers.dart';
 
 class SettingPage extends StatelessWidget {
   @override
@@ -20,9 +20,9 @@ class SettingPage extends StatelessWidget {
             title: Text('Dark Mode'),
             trailing: Switch(
               activeColor: Theme.of(context).accentColor,
-              value: Provider.of<Setting>(context).darkMode,
+              value: Provider.of<Settings>(context).darkMode,
               onChanged: (value) =>
-              Provider.of<Setting>(context).switchDarkMode = value,
+                  Provider.of<Settings>(context).switchDarkMode = value,
             ),
           ),
         ),
@@ -32,9 +32,9 @@ class SettingPage extends StatelessWidget {
             title: Text('Jalali Date'),
             trailing: Switch(
               activeColor: Theme.of(context).accentColor,
-              value: Provider.of<Setting>(context).showJalaliDate,
+              value: Provider.of<Settings>(context).showJalaliDate,
               onChanged: (value) =>
-              Provider.of<Setting>(context).showJalaliDate = value,
+                  Provider.of<Settings>(context).showJalaliDate = value,
             ),
           ),
         ),

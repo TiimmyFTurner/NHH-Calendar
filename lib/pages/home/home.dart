@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nhh_calendar/Pages/eventDetail/eventDetail.dart';
-import 'package:nhh_calendar/Providers/providers.dart';
+import 'package:nhh_calendar/providers/providers.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
         formatButtonTextStyle:
-        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
+            TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
           color: Theme.of(context).accentColor,
           borderRadius: BorderRadius.circular(16.0),
@@ -126,24 +126,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: _selectedEvents
             .map(
               (event) => Hero(
-            transitionOnUserGestures: true,
-            tag: 'Event${event['name']}',
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
-              elevation: 8,
-              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child: ListTile(
-                leading: Icon(Icons.cake),
-                title: Text(event['name']),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => EventDetail()),
+                transitionOnUserGestures: true,
+                tag: 'Event${event['name']}',
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
+                  elevation: 8,
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  child: ListTile(
+                    leading: Icon(Icons.cake),
+                    title: Text(event['name']),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => EventDetail()),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
       ),
     );
@@ -160,25 +160,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       elevation: 4,
     );
 
-    return Provider.of<Setting>(context).showJalaliDate ? jalali : Container();
+    return Provider.of<Settings>(context).showJalaliDate ? jalali : Container();
   }
 
   Widget _buildFloatingActionButton() => SizedBox(
-    width: 70,
-    height: 40,
-    child: FloatingActionButton(
-      backgroundColor: Theme.of(context).accentColor,
-      shape:
-      RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      child: Text('Today'),
-      onPressed: () {
-        _calendarController.setSelectedDay(
-          DateTime.now(),
-          runCallback: true,
-        );
-      },
-    ),
-  );
+        width: 70,
+        height: 40,
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).accentColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          child: Text('Today'),
+          onPressed: () {
+            _calendarController.setSelectedDay(
+              DateTime.now(),
+              runCallback: true,
+            );
+          },
+        ),
+      );
 
   Widget _buildHomeBody() {
     return Column(
