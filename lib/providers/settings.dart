@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Settings extends ChangeNotifier {
-  Map<String, ThemeData> _themes = {
+  final Map<String, ThemeData> _themes = {
     'blue': ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.blue[600],
@@ -15,12 +15,16 @@ class Settings extends ChangeNotifier {
     )
   };
   ThemeData _themeData;
+
   bool _showJalaliDate = true;
 
   ThemeData get themeData =>
       _themeData = _themeData == null ? _themes['blue'] : _themeData;
-  Map<String, ThemeData> get themes => _themes;
+
+  ThemeData get darkTheme => _themes['dark'];
+
   bool get darkMode => _themeData == _themes['dark'] ? true : false;
+
   bool get showJalaliDate => _showJalaliDate;
 
   set setThemeData(ThemeData theme) {

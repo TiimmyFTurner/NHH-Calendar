@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'NHH Calendar',
       theme: Provider.of<Settings>(context).themeData,
-      darkTheme: Provider.of<Settings>(context).themes['dark'],
+      darkTheme: Provider.of<Settings>(context).darkTheme,
       home: HomePage(Provider.of<Events>(context).events),
     );
   }

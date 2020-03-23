@@ -22,7 +22,8 @@ class SettingPage extends StatelessWidget {
               activeColor: Theme.of(context).accentColor,
               value: Provider.of<Settings>(context).darkMode,
               onChanged: (value) =>
-                  Provider.of<Settings>(context).switchDarkMode = value,
+                  Provider.of<Settings>(context, listen: false).switchDarkMode =
+                      value,
             ),
           ),
         ),
@@ -34,7 +35,8 @@ class SettingPage extends StatelessWidget {
               activeColor: Theme.of(context).accentColor,
               value: Provider.of<Settings>(context).showJalaliDate,
               onChanged: (value) =>
-                  Provider.of<Settings>(context).showJalaliDate = value,
+                  Provider.of<Settings>(context, listen: false).showJalaliDate =
+                      value,
             ),
           ),
         ),
