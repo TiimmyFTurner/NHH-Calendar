@@ -18,19 +18,13 @@ class Settings extends ChangeNotifier {
 
   bool _showJalaliDate = true;
 
-  ThemeData get themeData =>
-      _themeData = _themeData == null ? _themes['blue'] : _themeData;
+  ThemeData get themeData => _themeData ?? _themes['blue'];
 
   ThemeData get darkTheme => _themes['dark'];
 
   bool get darkMode => _themeData == _themes['dark'] ? true : false;
 
   bool get showJalaliDate => _showJalaliDate;
-
-  set setThemeData(ThemeData theme) {
-    _themeData = theme;
-    notifyListeners();
-  }
 
   set switchDarkMode(bool status) {
     _themeData = status ? _themes['dark'] : _themes['blue'];
