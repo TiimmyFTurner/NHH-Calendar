@@ -18,9 +18,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Map<DateTime, List> _events;
+
   List _selectedEvents;
-  AnimationController _animationController;
+
+  AnimationController _animationController, _eventAnimationController;
+
+  Animation<Offset> _eventAnimation;
+
   CalendarController _calendarController;
+
   DateTime _selectedDay;
 
   @override
@@ -31,11 +37,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _events = widget.events;
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _animationController.forward();
+    _eventAnimationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    _eventAnimation = Tween(begin: Offset(0, -1.5), end: Offset.zero).animate(
+      CurvedAnimation(
+          parent: _eventAnimationController,
+          curve: Curves.fastLinearToSlowEaseIn),
+    );
   }
 
   @override
@@ -45,11 +56,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
+  void _onDaySelected(DateTime day, List events) async {
+    await _eventAnimationController.reverse();
     setState(() {
       _selectedEvents = events;
       _selectedDay = day;
     });
+    await _eventAnimationController.forward();
   }
 
   AppBar _buildAppBar() {
@@ -70,7 +83,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   String formatter(Date d) {
     final f = d.formatter;
-    return "${f.wN} ${f.d} ${f.mN} ${f.yyyy} ";
+    return "  ${f.wN} ${f.d} ${f.mN} ${f.yyyy}";
   }
 
   TableCalendar _buildTableCalendar() {
@@ -128,17 +141,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               (event) => Hero(
                 transitionOnUserGestures: true,
                 tag: 'Event${event['name']}',
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16)),
-                  elevation: 8,
-                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  child: ListTile(
-                    leading: Icon(Icons.cake),
-                    title: Text(event['name']),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => EventDetail()),
+                child: FadeTransition(
+                  opacity: CurvedAnimation(
+                    parent: _eventAnimationController,
+                    curve: Curves.easeIn,
+                  ),
+                  child: SlideTransition(
+                    position: _eventAnimation,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16)),
+                      elevation: 8,
+                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                      child: ListTile(
+                        leading: Icon(Icons.cake),
+                        title: Text(event['name']),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => EventDetail()),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -151,13 +173,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget _buildJalaliDate() {
     String date = formatter(Gregorian.fromDateTime(_selectedDay).toJalali());
-    Chip jalali = Chip(
-      label: Text(
-        date,
-        style: TextStyle(color: Colors.white),
+    Widget jalali = FadeTransition(
+      opacity: CurvedAnimation(
+          parent: _eventAnimationController, curve: Curves.ease),
+      child: Chip(
+        label: Text(
+          date,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
+        elevation: 4,
       ),
-      backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
-      elevation: 4,
     );
 
     return Provider.of<Settings>(context).showJalaliDate ? jalali : Container();
