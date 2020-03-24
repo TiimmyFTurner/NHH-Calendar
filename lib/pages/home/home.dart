@@ -47,12 +47,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           parent: _eventAnimationController,
           curve: Curves.fastLinearToSlowEaseIn),
     );
+    _eventAnimationController.forward();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
     _calendarController.dispose();
+    _eventAnimationController.dispose();
     super.dispose();
   }
 
