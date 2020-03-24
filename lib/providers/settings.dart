@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends ChangeNotifier {
-  final Map<String, ThemeData> _themes = {
+  static final Map<String, ThemeData> _themes = {
     'blue': ThemeData(
       brightness: Brightness.light,
       primaryColor: Colors.blue[600],
@@ -14,11 +15,22 @@ class Settings extends ChangeNotifier {
       appBarTheme: AppBarTheme(elevation: 0),
     )
   };
-  ThemeData _themeData;
+  ThemeData _themeData = _themes['blue'];
 
   bool _showJalaliDate = true;
 
-  ThemeData get themeData => _themeData ?? _themes['blue'];
+  SharedPreferences _prefs;
+
+  Future readSetting() async {
+    _prefs = await SharedPreferences.getInstance();
+    _showJalaliDate = _prefs.getBool('jalali') ?? true;
+    _themeData = (_prefs.getBool('darkMode') ?? false)
+        ? _themes['dark']
+        : _themes['blue'];
+    notifyListeners();
+  }
+
+  ThemeData get themeData => _themeData;
 
   ThemeData get darkTheme => _themes['dark'];
 
@@ -28,11 +40,13 @@ class Settings extends ChangeNotifier {
 
   set switchDarkMode(bool status) {
     _themeData = status ? _themes['dark'] : _themes['blue'];
+    _prefs.setBool('darkMode', status);
     notifyListeners();
   }
 
   set showJalaliDate(bool status) {
     _showJalaliDate = status;
+    _prefs.setBool('jalali', status);
     notifyListeners();
   }
 }

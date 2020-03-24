@@ -32,6 +32,8 @@ dependencies:
 
   shamsi_date: ^0.6.3
 
+  shared_preferences: ^0.5.6+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
