@@ -87,90 +87,87 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return "  ${f.wN} ${f.d} ${f.mN} ${f.yyyy}";
   }
 
-  TableCalendar _buildTableCalendar() {
-    return TableCalendar(
-      calendarController: _calendarController,
-      events: _events,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle(color: Colors.white.withOpacity(.6)),
-        weekdayStyle: TextStyle(color: Colors.white),
-      ),
-      calendarStyle: CalendarStyle(
-        holidayStyle: TextStyle(color: Colors.white.withOpacity(.6)),
-        weekendStyle: TextStyle(color: Colors.white.withOpacity(.6)),
-        todayStyle: TextStyle(
-          color: Colors.deepOrange,
-          fontSize: 18,
+  TableCalendar _buildTableCalendar() => TableCalendar(
+        calendarController: _calendarController,
+        events: _events,
+        startingDayOfWeek: StartingDayOfWeek.sunday,
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekendStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+          weekdayStyle: TextStyle(color: Colors.white),
         ),
-        weekdayStyle: TextStyle(color: Colors.white),
-        selectedColor: Theme.of(context).accentColor,
-        todayColor: Colors.white.withOpacity(.6),
-        markersColor: Colors.blue[100].withOpacity(.6),
-        outsideDaysVisible: false,
-        markersPositionBottom: 0.1,
-      ),
-      headerStyle: HeaderStyle(
-        rightChevronIcon: Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.white,
-          size: 18,
+        calendarStyle: CalendarStyle(
+          holidayStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+          weekendStyle: TextStyle(color: Colors.white.withOpacity(.6)),
+          todayStyle: TextStyle(
+            color: Colors.deepOrange,
+            fontSize: 18,
+          ),
+          weekdayStyle: TextStyle(color: Colors.white),
+          selectedColor: Theme.of(context).accentColor,
+          todayColor: Colors.white.withOpacity(.6),
+          markersColor: Colors.blue[100].withOpacity(.6),
+          outsideDaysVisible: false,
+          markersPositionBottom: 0.1,
         ),
-        leftChevronIcon: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.white,
-          size: 18,
+        headerStyle: HeaderStyle(
+          rightChevronIcon: Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.white,
+            size: 18,
+          ),
+          leftChevronIcon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 18,
+          ),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
+          formatButtonTextStyle:
+              TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
+          formatButtonDecoration: BoxDecoration(
+            color: Theme.of(context).accentColor,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
         ),
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 18),
-        formatButtonTextStyle:
-            TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Theme.of(context).accentColor,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-      ),
-      onDaySelected: _onDaySelected,
-    );
-  }
+        onDaySelected: _onDaySelected,
+      );
 
-  Widget _buildEventList() {
-    return Expanded(
-      child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: _selectedEvents
-            .map(
-              (event) => Hero(
-                transitionOnUserGestures: true,
-                tag: 'Event${event['name']}',
-                child: FadeTransition(
-                  opacity: CurvedAnimation(
-                    parent: _eventAnimationController,
-                    curve: Curves.easeIn,
-                  ),
-                  child: SlideTransition(
-                    position: _eventAnimation,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      elevation: 8,
-                      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                      child: ListTile(
-                        leading: Icon(Icons.cake),
-                        title: Text(event['name']),
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => EventDetail()),
+  Widget _buildEventList() => Expanded(
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          children: _selectedEvents
+              .map(
+                (event) => Hero(
+                  transitionOnUserGestures: true,
+                  tag: 'Event${event['name']}',
+                  child: FadeTransition(
+                    opacity: CurvedAnimation(
+                      parent: _eventAnimationController,
+                      curve: Curves.easeIn,
+                    ),
+                    child: SlideTransition(
+                      position: _eventAnimation,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        elevation: 8,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        child: ListTile(
+                          leading: Icon(Icons.cake),
+                          title: Text(event['name']),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => EventDetail()),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-            .toList(),
-      ),
-    );
-  }
+              )
+              .toList(),
+        ),
+      );
 
   Widget _buildJalaliDate() {
     String date = formatter(Gregorian.fromDateTime(_selectedDay).toJalali());
@@ -186,7 +183,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         elevation: 4,
       ),
     );
-
     return Provider.of<Settings>(context).showJalaliDate ? jalali : Container();
   }
 
@@ -207,16 +203,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
       );
 
-  Widget _buildHomeBody() {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        _buildTableCalendar(),
-        _buildJalaliDate(),
-        _buildEventList(),
-      ],
-    );
-  }
+  Widget _buildHomeBody() => Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          _buildTableCalendar(),
+          _buildJalaliDate(),
+          _buildEventList(),
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
