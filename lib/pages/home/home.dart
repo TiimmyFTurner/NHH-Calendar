@@ -1,4 +1,3 @@
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nhh_calendar/Pages/eventDetail/eventDetail.dart';
@@ -76,7 +75,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           icon: Icon(LineIcons.gear),
           onPressed: () => Navigator.push(
             context,
-            CupertinoPageRoute(builder: (_) => SettingPage()),
+            MaterialPageRoute(builder: (_) => SettingPage()),
           ),
         )
       ],
